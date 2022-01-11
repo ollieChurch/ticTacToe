@@ -1,0 +1,48 @@
+body * {
+  box-sizing: border-box;
+}
+
+body { 
+  text-align: center; 
+  font: 20px Helvetica, sans-serif; 
+  color: #333;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 1/1;
+  max-width: 400px;
+  margin: .75em auto; 
+  background: lightblue;
+  grid-gap: .5em;
+  font-size: 3rem;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  background: white;
+  cursor: pointer;
+}
+
+.reset {
+  padding: .75em 1.5em;
+  font-size: 1.25rem;
+  border-radius: 20px;
+  background: palevioletred;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reset:hover,
+.reset:focus {
+  background: black;
+}
+
+.status {
+  font-size: 1.5rem;
+}
