@@ -3,7 +3,7 @@
  const GameStatusContext = createContext()
  
  function GameStatusProvider({children}) {
-  const [startingPlayer] = useState('X')
+  const [startingPlayer] = useState('🦁')
   const [messages] = useState({
     playing: 'Next player:', 
     won: 'Winner:', 
@@ -26,36 +26,34 @@
   }, [resetGame, messages.playing, startingPlayer])
 
   function updateGameStatus(squareKey) {
-    if (!gameOver) {
-      const newMoveCount = moveCount + 1
-      setMoveCount(newMoveCount)
+    const newMoveCount = moveCount + 1
+    const squares = []
+    let winnerFound = false
 
+    setMoveCount(newMoveCount)
+    
+    document.querySelectorAll('.square').forEach(square => squares.push(square.textContent))
+    squares[squareKey] = currentPlayer
+    
+    winningCombinationsData.forEach(combination => {
+      const playersArr = []
+      combination.forEach(i => playersArr.push(squares[i]))
+      const playersSet = new Set(playersArr)
+      if (playersSet.size === 1 && playersArr[0]) {
+        winnerFound = true
+        setGameOver(true)
+        setStatus(`${messages.won} ${currentPlayer}`)
+      }
+    })
+    
+    if (!winnerFound) {
       if (newMoveCount >= 9) {
         setGameOver(true)
         setStatus(messages.tie)
       } else {
-        const squares = []
-        let winnerFound = false
-
-        document.querySelectorAll('.square').forEach(square => squares.push(square.textContent))
-        squares[squareKey] = currentPlayer
-        
-        winningCombinationsData.forEach(combination => {
-          const playersArr = []
-          combination.forEach(i => playersArr.push(squares[i]))
-          const playersSet = new Set(playersArr)
-          if (playersSet.size === 1 && playersArr[0]) {
-            winnerFound = true
-            setGameOver(true)
-            setStatus(`${messages.won} ${currentPlayer}`)
-          }
-        })
-        
-        if (!winnerFound) {
-          const nextPlayer = currentPlayer === 'X' ? 'O' : 'X'
-          setCurrentPlayer(nextPlayer)
-          setStatus(`${messages.playing} ${nextPlayer}`)
-        }
+        const nextPlayer = currentPlayer === '🦁' ? '😸' : '🦁'
+        setCurrentPlayer(nextPlayer)
+        setStatus(`${messages.playing} ${nextPlayer}`)
       }
     }
   }
